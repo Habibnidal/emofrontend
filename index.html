@@ -11,11 +11,18 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       padding: 20px;
       overflow-x: hidden;
+    }
+
+    .main-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: calc(100vh - 40px);
     }
 
     .container {
@@ -27,8 +34,8 @@
       width: 100%;
       position: relative;
       overflow: hidden;
-      z-index: 10;
       border: 1px solid #2a2a4a;
+      flex-shrink: 0;
     }
 
     .container::before {
@@ -147,27 +154,32 @@
       30% { transform: translateY(-10px); }
     }
 
-    /* Character container - slightly larger */
+    /* Character container - Desktop */
     .character-container {
-      position: fixed;
-      right: -450px;
-      bottom: 40px;
-      width: 360px;
-      transition: right 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      z-index: 1000;
+      width: 400px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 20px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events: none;
     }
 
-    .character-container.show { right: 30px; }
+    .character-container.show { 
+      opacity: 1; 
+      transform: scale(1);
+      pointer-events: auto;
+    }
 
     .image-wrapper {
       position: relative;
-      width: 260px;
-      height: 370px;
+      width: 280px;
+      height: 400px;
       margin: 0 auto;
       animation: float 3s ease-in-out infinite;
     }
 
-    /* Bluish glowing border effect */
     .character-video {
       width: 100%;
       height: 100%;
@@ -201,181 +213,247 @@
       animation: glowPulse 2s ease-in-out infinite;
     }
 
-    /* Mouth overlay - positioned at bottom center of character */
-    
-
-    /* Speech bubble */
     .speech-bubble {
-      position: absolute;
-      left: -280px;
-      top: 10px;
-      max-width: 250px;
       background: #1e1e2f;
-      padding: 16px 20px;
+      padding: 20px 24px;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       border: 1px solid #2a2a4a;
+      margin-bottom: 30px;
       opacity: 0;
-      transform: scale(0.8);
+      transform: translateY(-10px);
       transition: all 0.4s ease;
     }
 
-    .speech-bubble.show { opacity: 1; transform: scale(1); }
-
-    .speech-bubble::after {
-      content: '';
-      position: absolute;
-      right: -10px;
-      top: 30px;
-      width: 0; height: 0;
-      border-left: 15px solid #1e1e2f;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
+    .speech-bubble.show { 
+      opacity: 1; 
+      transform: translateY(0);
     }
 
-    .speech-bubble-text { color: #e2e8f0; font-size: 14px; line-height: 1.6; }
-
-    @media (max-width: 900px) {
-      .character-container { display: none; }
-      .container { max-width: 100%; }
+    .speech-bubble-text { 
+      color: #e2e8f0; 
+      font-size: 15px; 
+      line-height: 1.7;
+      text-align: center;
     }
 
-    @media (max-width: 600px) {
-      .container { padding: 24px; }
-      h2 { font-size: 24px; }
-    }
     .bot-name {
-  position: absolute;
-  top: -35px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 6px 18px;
-  border-radius: 12px;
-  background: #151525;
-  border: 2px solid rgba(102, 126, 234, 0.6);
-  color: #e2e8f0;
-  overflow: hidden;
-}
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 6px 18px;
+      border-radius: 12px;
+      background: #151525;
+      border: 2px solid rgba(102, 126, 234, 0.6);
+      color: #e2e8f0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
-/* Light sweep layer */
-.bot-name::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(102, 126, 234, 0.2) 30%,
-    rgba(102, 126, 234, 0.9) 50%,
-    rgba(102, 126, 234, 0.2) 70%,
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-}
+    .bot-name::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(102, 126, 234, 0.2) 30%,
+        rgba(102, 126, 234, 0.9) 50%,
+        rgba(102, 126, 234, 0.2) 70%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+    }
 
-/* Animate ONLY when speaking */
-.bot-name.speaking::before {
-  animation: moveGlow 2s linear infinite;
-}
+    .bot-name.speaking::before {
+      animation: moveGlow 2s linear infinite;
+    }
 
-@keyframes moveGlow {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
+    @keyframes moveGlow {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
 
+    /* Mobile Responsive Styles */
+    @media (max-width: 900px) {
+      body { padding: 10px; }
+      
+      .main-wrapper {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .container { 
+        padding: 24px;
+        max-width: 100%;
+      }
+
+      h2 { font-size: 24px; }
+
+      .character-container {
+        position: relative;
+        top: 0;
+        width: 100%;
+        max-width: 400px;
+        margin: 20px auto 0;
+      }
+
+      .image-wrapper {
+        width: 240px;
+        height: 340px;
+      }
+
+      .speech-bubble {
+        margin-bottom: 20px;
+      }
+
+      .speech-bubble-text {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .container { padding: 20px; }
+      
+      h2 { font-size: 22px; }
+      
+      .emoji { font-size: 30px; }
+
+      textarea { font-size: 14px; padding: 14px; }
+
+      .category-label { padding: 10px 14px; padding-left: 40px; }
+
+      .category-text { font-size: 14px; }
+
+      button { padding: 14px; font-size: 15px; }
+
+      .image-wrapper {
+        width: 200px;
+        height: 300px;
+      }
+
+      .bot-name {
+        font-size: 18px;
+        top: -35px;
+        padding: 5px 14px;
+      }
+
+      .speech-bubble {
+        padding: 16px 18px;
+      }
+
+      .speech-bubble-text {
+        font-size: 13px;
+        line-height: 1.6;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h2><span class="emoji">🤖</span> Emotional AI Assistant</h2>
+<div class="main-wrapper">
+  <div class="container">
+    <h2><span class="emoji">🤖</span> Emotional AI Assistant</h2>
 
-  <textarea id="text" rows="5" placeholder="Describe what you are feeling..."></textarea>
+    <textarea id="text" rows="5" placeholder="Describe what you are feeling..."></textarea>
 
-  <div class="categories">
-    <label class="category-label">
-      <input type="radio" name="cat" value="current condition">
-      <span class="category-text">Current Condition</span>
-    </label>
-    <label class="category-label">
-      <input type="radio" name="cat" value="strength">
-      <span class="category-text">Strength</span>
-    </label>
-    <label class="category-label">
-      <input type="radio" name="cat" value="weakness">
-      <span class="category-text">Weakness</span>
-    </label>
-    <label class="category-label">
-      <input type="radio" name="cat" value="motivational advice">
-      <span class="category-text">Motivational Advice</span>
-    </label>
-    <label class="category-label">
-      <input type="radio" name="cat" value="what should i do now">
-      <span class="category-text">What should I do now</span>
-    </label>
-    <label class="category-label">
-      <input type="radio" name="cat" value="better living">
-      <span class="category-text"> What to do for Better Living</span>
-    </label>
+    <div class="categories">
+      <label class="category-label">
+        <input type="radio" name="cat" value="current condition">
+        <span class="category-text">Current Condition</span>
+      </label>
+      <label class="category-label">
+        <input type="radio" name="cat" value="strength">
+        <span class="category-text">Strength</span>
+      </label>
+      <label class="category-label">
+        <input type="radio" name="cat" value="weakness">
+        <span class="category-text">Weakness</span>
+      </label>
+      <label class="category-label">
+        <input type="radio" name="cat" value="motivational advice">
+        <span class="category-text">Motivational Advice</span>
+      </label>
+      <label class="category-label">
+        <input type="radio" name="cat" value="what should i do now">
+        <span class="category-text">What should I do now</span>
+      </label>
+      <label class="category-label">
+        <input type="radio" name="cat" value="better living">
+        <span class="category-text">What to do for Better Living</span>
+      </label>
+    </div>
+
+    <div class="language-selection">
+      <label class="category-label">
+        <input type="radio" name="language" value="en" checked>
+        <span class="category-text">🇺🇸 English</span>
+      </label>
+      <label class="category-label">
+        <input type="radio" name="language" value="ml">
+        <span class="category-text">🇮🇳 മലയാളം</span>
+      </label>
+    </div>
+
+    <button onclick="send()">Check</button>
+
+    <div class="loading" id="loading">
+      <div class="loading-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
   </div>
 
-  <div class="language-selection">
-    <label class="category-label">
-      <input type="radio" name="language" value="en" checked>
-      <span class="category-text">🇺🇸 English</span>
-    </label>
-    <label class="category-label">
-      <input type="radio" name="language" value="ml">
-      <span class="category-text">🇮🇳 മലയാളം</span>
-    </label>
-  </div>
+  <!-- Character Panel -->
+  <div class="character-container" id="characterContainer">
+    <div class="speech-bubble" id="speechBubble">
+      <div class="speech-bubble-text" id="speechText"></div>
+    </div>
 
-  <button onclick="send()">Check</button>
-
-  <div class="loading" id="loading">
-    <div class="loading-dots">
-      <span></span><span></span><span></span>
+    <div class="image-wrapper">
+      <div class="bot-name" id="botName">Veloria</div>
+      <video class="character-video" id="characterVideo" loop muted playsinline autoplay
+             src="IMG_8261.MP4.webm"></video>
     </div>
   </div>
 </div>
 
-<!-- Character Panel -->
-<div class="character-container" id="characterContainer">
-  <div class="speech-bubble" id="speechBubble">
-    <div class="speech-bubble-text" id="speechText"></div>
-  </div>
-
-  <div class="image-wrapper">
-    <div class="bot-name" id="botName">Veloria</div><br>
-    <video class="character-video" id="characterVideo" loop muted playsinline autoplay
-           src="IMG_8261.MP4.webm"></video>
-
-    <!-- <div class="mouth-overlay">
-      <div class="mouth-shape" id="mouthShape"></div>
-    </div> -->
-  </div>
-</div>
-
 <script>
-const mouth = document.getElementById('mouthShape');
 const video = document.getElementById('characterVideo');
+const characterContainer = document.getElementById('characterContainer');
+const botName = document.getElementById('botName');
 
 function startTalking() {
   video.classList.add('speaking');
+  botName.classList.add('speaking');
 }
 
 function stopTalking() {
   video.classList.remove('speaking');
+  botName.classList.remove('speaking');
 }
+
 function hideCharacter() {
-  document.getElementById('characterContainer').classList.remove('show');
+  characterContainer.classList.remove('show');
   document.getElementById('speechBubble').classList.remove('show');
+}
+
+function scrollToCharacter() {
+  // Smooth scroll to character with offset
+  setTimeout(() => {
+    characterContainer.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center'
+    });
+  }, 300);
 }
 
 function speakText(text, language) {
@@ -384,20 +462,36 @@ function speakText(text, language) {
   const voices = window.speechSynthesis.getVoices();
 
   if (language === 'ml') {
-    msg.lang = 'ml-IN'; msg.rate = 0.85; msg.pitch = 1.15;
-    const v = voices.find(v => v.lang.includes('ml')) || voices.find(v => v.lang.includes('hi-IN')) || voices[0];
+    msg.lang = 'ml-IN'; 
+    msg.rate = 0.85; 
+    msg.pitch = 1.15;
+    const v = voices.find(v => v.lang.includes('ml')) || 
+              voices.find(v => v.lang.includes('hi-IN')) || 
+              voices[0];
     if (v) msg.voice = v;
   } else {
-    msg.lang = 'en-US'; msg.pitch = 1.5; msg.rate = 5.0;
-    const v = voices.find(v => v.lang.includes('en') && (v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('alex')));
+    msg.lang = 'en-US'; 
+    msg.pitch = 1.5; 
+    msg.rate = 1.0;
+    const v = voices.find(v => v.lang.includes('en') && 
+              (v.name.toLowerCase().includes('david') || 
+               v.name.toLowerCase().includes('alex')));
     if (v) msg.voice = v;
   }
 
-  msg.onstart = startTalking;
+  msg.onstart = () => {
+    startTalking();
+    scrollToCharacter();
+  };
   msg.onend = stopTalking;
   msg.onerror = stopTalking;
 
-  try { window.speechSynthesis.speak(msg); } catch(e) { stopTalking(); }
+  try { 
+    window.speechSynthesis.speak(msg); 
+  } catch(e) { 
+    stopTalking(); 
+    console.error('Speech synthesis error:', e);
+  }
 }
 
 function send() {
@@ -405,14 +499,19 @@ function send() {
   const cat = document.querySelector('input[name="cat"]:checked');
   const lang = document.querySelector('input[name="language"]:checked');
 
-  if (!text.trim()) { alert('Please describe your feelings'); return; }
-  if (!cat) { alert('Please select a category'); return; }
+  if (!text.trim()) { 
+    alert('Please describe your feelings'); 
+    return; 
+  }
+  if (!cat) { 
+    alert('Please select a category'); 
+    return; 
+  }
 
   const language = lang ? lang.value : 'en';
 
   document.getElementById('loading').classList.add('show');
-  document.getElementById('characterContainer').classList.remove('show');
-  document.getElementById('speechBubble').classList.remove('show');
+  hideCharacter();
   stopTalking();
 
   fetch('https://emotionalai.onrender.com/analyze', {
@@ -423,7 +522,7 @@ function send() {
   .then(res => res.json())
   .then(data => {
     document.getElementById('loading').classList.remove('show');
-    document.getElementById('characterContainer').classList.add('show');
+    characterContainer.classList.add('show');
     document.getElementById('speechText').textContent = data.response;
     document.getElementById('speechBubble').classList.add('show');
 
@@ -431,30 +530,49 @@ function send() {
       const audio = new Audio('data:audio/mp3;base64,' + data.audio);
       audio.playbackRate = 1.3;
       audio.preservesPitch = true;
-      audio.onplay = startTalking;
+      
+      audio.onplay = () => {
+        startTalking();
+        scrollToCharacter();
+      };
+      
       audio.onended = () => {
         stopTalking();
-        hideCharacter();
+        setTimeout(hideCharacter, 2000);
       };
+      
       audio.onerror = () => {
         stopTalking();
-        hideCharacter();
+        setTimeout(hideCharacter, 2000);
       };
-      audio.play();
+      
+      audio.play().catch(err => {
+        console.error('Audio playback error:', err);
+        speakText(data.response, language);
+      });
     } else {
       speakText(data.response, language);
     }
   })
-  .catch(() => {
+  .catch(err => {
     document.getElementById('loading').classList.remove('show');
     stopTalking();
+    console.error('Fetch error:', err);
     alert('Error connecting to the server. Please try again.');
   });
 }
 
-window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+// Load voices when available
+window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
+
+// Prevent video from stopping on mobile
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && video) {
+    video.play().catch(() => {});
+  }
+});
 </script>
 </body>
 </html>
-
-
