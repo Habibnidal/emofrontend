@@ -415,7 +415,7 @@ function send() {
   document.getElementById('speechBubble').classList.remove('show');
   stopTalking();
 
-  fetch('https://emotionalai.onrender.com//analyze', {
+  fetch('https://emotionalai.onrender.com/analyze', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, category: cat.value, language })
@@ -456,4 +456,5 @@ window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices(
 </script>
 </body>
 </html>
+
 
