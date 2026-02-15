@@ -155,14 +155,16 @@
     }
 
     /* Character container - Desktop */
-   .character-container {
-  position: fixed;
-  right: -450px;
-  bottom: 40px;
-  width: clamp(220px, 25vw, 360px); /* responsive width */
-  transition: right 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  z-index: 1000;
-}
+    .character-container {
+      width: 400px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 20px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events: none;
+    }
 
     .character-container.show { 
       opacity: 1; 
@@ -170,13 +172,13 @@
       pointer-events: auto;
     }
 
-   .image-wrapper {
-  position: relative;
-  width: 100%;              /* responsive */
-  aspect-ratio: 2 / 3;      /* keeps proper shape */
-  margin: 0 auto;
-  animation: float 3s ease-in-out infinite;
-}
+    .image-wrapper {
+      position: relative;
+      width: 280px;
+      height: 400px;
+      margin: 0 auto;
+      animation: float 3s ease-in-out infinite;
+    }
 
     .character-video {
       width: 100%;
@@ -236,20 +238,21 @@
     }
 
     .bot-name {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(14px, 1.5vw, 22px); /* responsive text */
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 6px 16px;
-  border-radius: 12px;
-  background: #151525;
-  border: 2px solid rgba(102, 126, 234, 0.6);
-  color: #e2e8f0;
-  overflow: hidden;
-}
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 6px 18px;
+      border-radius: 12px;
+      background: #151525;
+      border: 2px solid rgba(102, 126, 234, 0.6);
+      color: #e2e8f0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
     .bot-name::before {
       content: "";
@@ -280,13 +283,7 @@
 
     /* Mobile Responsive Styles */
     @media (max-width: 900px) {
-  .character-container {
-    right: 10px;
-    bottom: 10px;
-    width: 200px; /* smaller but visible */
-  }
-  .container { max-width: 100%; }
-}
+      body { padding: 10px; }
       
       .main-wrapper {
         flex-direction: column;
@@ -585,8 +582,6 @@ document.addEventListener('visibilitychange', () => {
 </script>
 </body>
 </html>
-
-
 
 
 
