@@ -520,7 +520,7 @@ function send() {
   hideCharacter();
   stopTalking();
 
-  fetch('emotionalai-production-8337.up.railway.app/analyze', {
+  fetch('https://emotionalai-production-8337.up.railway.app/analyze', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, category: cat.value, language })
@@ -582,6 +582,7 @@ document.addEventListener('visibilitychange', () => {
 </script>
 </body>
 </html>
+
 
 
 
